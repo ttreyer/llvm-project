@@ -139,11 +139,14 @@ function(add_lldb_library name)
       set(install_dest ${PARAM_INSTALL_PREFIX})
     endif()
     # RUNTIME is relevant for DLL platforms, FRAMEWORK for macOS
-    install(TARGETS ${name} COMPONENT ${name}
+    install(TARGETS ${name} COMPONENT ${name} EXPORT ${name}
       RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
       LIBRARY DESTINATION ${install_dest}
       ARCHIVE DESTINATION ${install_dest}
       FRAMEWORK DESTINATION ${install_dest})
+    install(EXPORT ${name}
+      DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/lldb"
+      COMPONENT ${name})
     if (NOT CMAKE_CONFIGURATION_TYPES)
       add_llvm_install_targets(install-${name}
                               DEPENDS ${name}
